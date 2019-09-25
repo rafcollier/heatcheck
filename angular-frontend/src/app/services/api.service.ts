@@ -27,7 +27,7 @@ export class ApiService {
     	//return this.http.get('https://www.balldontlie.io/api/v1/players?search=davis')
     	//return this.http.get('https://www.balldontlie.io/api/v1/games?seasons[]=2019')
     	//return this.http.get('https://www.balldontlie.io/api/v1/stats?per_page=100&dates[]="2019-03-16"')
-    	return this.http.get('https://www.balldontlie.io/api/v1/stats?page=2&per_page=100&dates[]="2019-03-16"')
+    	return this.http.get('https://www.balldontlie.io/api/v1/stats?page=1&per_page=100&dates[]="2019-03-17"')
         .pipe(map(res => res.json()));
 	}
 }
