@@ -1,0 +1,16 @@
+
+//CHANGE OUTPUT FOR FRONTEND
+
+https://www.youtube.com/watch?v=zrViDpWiNVE&list=PLillGF-RfqbZMNtaOXJQiDebNXjVapWPZ&index=5
+
+time 2.44
+
+Change "outputPath": "dist/angular-frontend" in angular.json to "../public"
+
+//RESPONSIVE NAV MENU
+
+https://code-maze.com/angular-material-navigation/
+
+
+
+

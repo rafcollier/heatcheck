@@ -1,0 +1,23 @@
+{
+  "name": "nbastats",
+  "version": "1.0.0",
+  "description": "app for fetching NBA stats",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NBAstats"
+  },
+  "dependencies": {
+    "express": "*",
+    "mongoose": "*",
+    "bcryptjs": "*",
+    "cors": "*",
+    "jsonwebtoken": "*",
+    "body-parser": "*",
+    "passport": "*",
+    "passport-jwt": "*",
+    "moment": "*"
+  },
+  "author": "Roger Collier",
+  "license": "ISC"
+}

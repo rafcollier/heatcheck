@@ -1,0 +1,22 @@
+<mat-toolbar color="warn">
+	<div fxHide.gt-xs>
+		<button mat-icon-button (click)="onToggleSidenav()">
+			<mat-icon>menu</mat-icon>
+		</button>
+	</div>
+	<div>
+		<a routerLink="/home" class="logostyle"> 
+			<img src="assets/images/favicon.png">HEAT CHECK
+		</a>
+	</div>
+	<div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+		<ul fxLayout fxLayoutGap="15px" class="navigation-items">
+			<li>
+				<a routerLink="/about">About</a>
+			</li>
+			<li>
+				<a routerLink="/register">Register</a>
+			</li>
+		</ul>
+	</div>
+</mat-toolbar>

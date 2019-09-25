@@ -1,0 +1,32 @@
+<div class = "align-form">
+  <section class = "mat-typography">
+    <h2>Register</h2>
+
+    <form (submit)="onRegisterSubmit()" class="example-form">  
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="First name" [(ngModel)]="firstname" name="firstname">  
+      </mat-form-field> 
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Last name" [(ngModel)]="lastname" name="lastname">  
+      </mat-form-field> 
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Username" [(ngModel)]="username" name="username">  
+      </mat-form-field>  
+      <mat-form-field class="example-full-width">  
+        <input type="password" matInput placeholder="Password" [(ngModel)]="password" name="password">  
+      </mat-form-field>  
+      <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Phone number" [(ngModel)]="phonenumber" name="phonenumber">  
+      </mat-form-field>  
+      <button mat-raised-button type="submit">Submit</button>
+    </form>  
+
+    <div *ngIf="errorMessage">
+      <h4 class="red-font">{{errorMessage}}</h4>
+    </div>
+    <div *ngIf="validateMessage">
+      <h4 class="red-font">{{validateMessage}}</h4>
+    </div>
+
+  </section>
+</div>
