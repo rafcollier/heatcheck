@@ -20,14 +20,15 @@ export class ApiService {
 		.pipe(map(res => res.json()));
 	}
 
-	getStats() {
+	getStats(gameDayString) {
 		let headers = new Headers();
     	headers.append('Content-Type', 'application/json');
     	console.log(headers);
     	//return this.http.get('https://www.balldontlie.io/api/v1/players?search=davis')
     	//return this.http.get('https://www.balldontlie.io/api/v1/games?seasons[]=2019')
     	//return this.http.get('https://www.balldontlie.io/api/v1/stats?per_page=100&dates[]="2019-03-16"')
-    	return this.http.get('https://www.balldontlie.io/api/v1/stats?page=2&per_page=50&dates[]="2019-03-17"')
+    	//return this.http.get('https://www.balldontlie.io/api/v1/stats?page=2&per_page=50&dates[]="2019-03-17"')
+    	return this.http.get('https://www.balldontlie.io/api/v1/stats?page=1&per_page=100&dates[]=' + gameDayString) 
         .pipe(map(res => res.json()));
 	}
 }

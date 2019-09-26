@@ -31,9 +31,9 @@ export class RegisterComponent implements OnInit {
 
 	onRegisterSubmit(){
 
-    this.apiService.getStats().subscribe(data => {
-      console.log(data);
-    });
+   // this.apiService.getStats().subscribe(data => {
+   //   console.log(data);
+    //});
 
     /*
 
