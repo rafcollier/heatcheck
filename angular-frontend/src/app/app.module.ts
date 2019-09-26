@@ -9,8 +9,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import * as moment from 'moment';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ChartsModule } from 'ng2-charts';
+import * as moment from 'moment';
+import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 //Components
 import { HomeComponent } from './components/home/home.component';
@@ -56,7 +58,8 @@ const appRoutes: Routes = [
     HttpModule,
     HttpClientModule,
     FlexLayoutModule,
-    RouterModule.forRoot(appRoutes)   
+    RouterModule.forRoot(appRoutes),
+    ChartsModule   
   ],
   providers: [ValidateService],
   bootstrap: [AppComponent]
