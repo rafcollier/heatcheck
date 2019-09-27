@@ -2,6 +2,7 @@
   <section class = "mat-typography">
     <h2>Register</h2>
 
+
     <form (submit)="onRegisterSubmit()" class="example-form">  
       <mat-form-field class="example-full-width">  
         <input type="text" matInput placeholder="First name" [(ngModel)]="firstname" name="firstname">  
@@ -16,11 +17,18 @@
         <input type="password" matInput placeholder="Password" [(ngModel)]="password" name="password">  
       </mat-form-field>  
       <mat-form-field class="example-full-width">  
+        <input type="text" matInput placeholder="Email address" [(ngModel)]="email" name="email">  
+      </mat-form-field>  
+      <mat-form-field class="example-full-width">  
         <input type="text" matInput placeholder="Phone number" [(ngModel)]="phonenumber" name="phonenumber">  
       </mat-form-field>  
       <button mat-raised-button type="submit">Submit</button>
+      <br><br>
+      <p>All fields required.</p>
+      <p>Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character.
+      </p>
     </form>  
-
+    <br>
     <div *ngIf="errorMessage">
       <h4 class="red-font">{{errorMessage}}</h4>
     </div>

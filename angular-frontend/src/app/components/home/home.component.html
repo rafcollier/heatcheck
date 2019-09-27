@@ -1,7 +1,15 @@
+
+
+
+
+
+
+
 <section class = "mat-typography">
 
-    <h2>Select Game Date</h2>
+    
     <form (submit)="onSearchSubmit()" class="example-form">  
+      <h2>Select Game Date</h2>
 
       <mat-form-field class="example-full-width">
         <input matInput [matDatepicker]="gameDatePicker" placeholder="Game Date" [(ngModel)]="gameDate" name="gameDate">
@@ -14,7 +22,9 @@
     </form>  
 </section>
 
-<div>
+<hr>
+
+<div *ngIf="showChart" class="chartStyle">
   <div style="display: block">
     <canvas baseChart
             [datasets]="barChartData"
@@ -25,4 +35,6 @@
             [plugins]="barChartPlugins">
     </canvas>
   </div>
+
+  <hr>
 </div>

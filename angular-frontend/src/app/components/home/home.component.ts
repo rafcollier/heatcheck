@@ -19,13 +19,92 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 export class HomeComponent implements OnInit {
 
 	gameDate: Date;
+  showChart: Boolean = false;
 
 	constructor(
   		private apiService: ApiService,
   		private router: Router,
 	) { }
 
-  public barChartOptions = {
+
+  public barChartOptions = {};
+
+  public barChartType = 'horizontalBar';
+  public barChartLegend = false;
+  public barChartPlugins = [pluginDataLabels];
+
+  public barChartLabels = [];
+
+  public barChartData = [
+    {data: [], backgroundColor: [], hoverBackgroundColor: "#D3D3D3"},
+  ];
+
+  ngOnInit() {
+    this.showChart = false;
+  }
+
+
+  onSearchSubmit() {
+
+  	const gameDayString = moment(this.gameDate).format("YYYY-MM-DD");
+  	console.log(typeof gameDayString);
+  	console.log(gameDayString);
+
+  	this.apiService.getStats(gameDayString).subscribe(data => {
+      console.log(data);
+
+      let games = data.data;
+
+      if(games.length == 0) {
+        this.showChart = false;
+      }
+      else {
+        this.showChart = true;
+      }
+
+
+      console.log(games);
+
+      let playersOver20 = games.filter(x => x.pts >= 20)
+                               .map(x => (
+                                 {
+                                   points: x.pts, 
+                                   fgPct: x.fg_pct.toString(),
+                                   threes: x.fg3m.toString(),
+                                   rebounds: x.reb.toString(), 
+                                   assists: x.ast.toString(), 
+                                   name: x.player.first_name 
+                                         + ' ' 
+                                         + x.player.last_name,
+                                   color:(
+                                           () => {
+                                                   if(x.pts < 30) return "#FBEC5D";
+                                                   else if(x.pts < 40) return "#FFB00F"; 
+                                                   else if(x.pts < 50) return "#FF6103"; 
+                                                   else return "#CD2626"
+                                                  }
+                                          )()
+                                  })
+                                )
+                               .sort((a,b) => (a.points < b.points) ? 1 : -1);
+
+
+      console.log(playersOver20);
+
+      let playersWarm = playersOver20.filter(x => x.points < 30);
+      console.log(playersWarm);
+
+      let playersHot = playersOver20.filter(x => x.points >= 30 && x.points <40);
+      console.log(playersHot);
+
+      let playersWhiteHot = playersOver20.filter(x => x.points >= 40 && x.points <50);
+      console.log(playersWhiteHot);
+
+      let playersLavaHot = playersOver20.filter(x => x.points > 50);
+      console.log(playersLavaHot);
+
+
+  this.barChartOptions = {
     scaleShowVerticalLines: false,
     responsive: true,
     scales: {
@@ -50,63 +129,48 @@ export class HomeComponent implements OnInit {
           size: 12,
         }
       }
+    },
+    tooltips: {
+      enabled: true,
+      mode: 'single',
+      custom: (tooltip) => {
+        if (!tooltip) return;
+        tooltip.displayColors = false;
+      },
+      callbacks: {
+        label: function(tooltipItems, data) { 
+          var reboundsArr = playersOver20.map(x => 'Rebounds: ' + x.rebounds);
+          var assistsArr = playersOver20.map(x => 'Assists: ' + x.assists);
+          var threesArr = playersOver20.map(x => 'Three Pointers: ' + x.threes);
+          var fgpArr = playersOver20.map(x => 'Field Goal %: ' + x.fgPct);
+          var multistringText = ['Points: ' + tooltipItems.xLabel];
+          multistringText.push(reboundsArr[tooltipItems.index]);
+          multistringText.push(assistsArr[tooltipItems.index]);
+          multistringText.push(threesArr[tooltipItems.index]);
+          multistringText.push(fgpArr[tooltipItems.index]);
+          return multistringText;
+        }
+      }
     }
 
   };
 
-  public barChartLabels = ['Lebron James', '2007', '2008', '2009', '2010', '2011', '2012'];
-  public barChartType = 'horizontalBar';
-  public barChartLegend = false;
-  public barChartPlugins = [pluginDataLabels];
-
-  public barChartData = [
-    {data: [65, 59, 80, 81, 56, 55, 40], backgroundColor: 'rgb(255, 165, 0)'},
-  ];
-
-  ngOnInit() {
-
-  }
-
-
-  onSearchSubmit() {
-  	const gameDayString = moment(this.gameDate).format("YYYY-MM-DD");
-  	console.log(typeof gameDayString);
-  	console.log(gameDayString);
-
-  	this.apiService.getStats(gameDayString).subscribe(data => {
-      console.log(data);
-
-      let games = data.data;
-      console.log(games);
-
-      let playersOver20 = games.filter(x => x.pts >= 20)
-                               .map(x => ({points: x.pts, firstname: x.player.first_name, lastname: x.player.last_name}));
-
-      console.log(playersOver20);
-
-      let playersWarm = playersOver20.filter(x => x.points < 30);
-      console.log(playersWarm);
-
-      let playersHot = playersOver20.filter(x => x.points >= 30 && x.points <40);
-      console.log(playersHot);
-
-      let playersWhiteHot = playersOver20.filter(x => x.points >= 40 && x.points <50);
-      console.log(playersWhiteHot);
-
-      let playersLavaHot = playersOver20.filter(x => x.points > 50);
-      console.log(playersLavaHot);
-
-      let dataArr = playersOver20.map(x => x.points);
-      console.log(dataArr);
 
       this.barChartData = [
-         {data: dataArr, backgroundColor: 'rgb(255, 165, 0)'},
-      ];
+                            {
+                              data: playersOver20.map(x => x.points), 
+                              backgroundColor: playersOver20.map(x => x.color),
+                              hoverBackgroundColor: "#D3D3D3"
+                            }
+                          ];
 
-      this.barChartLabels = playersOver20.map(x => x.lastname);
+      this.barChartLabels = playersOver20.map(x => x.name);
+
 
 
     });	
   }
+
+
 
 }
