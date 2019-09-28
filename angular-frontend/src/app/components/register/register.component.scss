@@ -2,6 +2,9 @@
   min-width: 150px;  
   max-width: 500px;  
   width: 100%;  
+  margin: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }  
   
 .example-full-width {  
@@ -15,5 +18,9 @@
 }
 
 .red-font {
-	color: red;
+  color: red;
+}
+
+.blue-font {
+  color: blue;
 }

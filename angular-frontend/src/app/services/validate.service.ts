@@ -64,5 +64,35 @@ export class ValidateService {
     }
     return response;
     }
+
   }
+
+  validateLogin(user) {
+
+    if(user.email == ("" || undefined || null) || (user.email.length == 0)) {
+      let response = {
+        valid: false,
+        message: "Please fill both fields."
+      }
+      return response;
+    }  
+    else if(user.password == ("" || undefined || null) || (user.password.length == 0)) {
+      let response = {
+        valid: false,
+        message: "Please fill both fields."
+      }
+      return response;
+    }  
+    else {
+      let response = {
+      valid: true,
+      message: "Validation Passed."
+    }
+    return response;
+    }
+
+  }
+
 }
+
+

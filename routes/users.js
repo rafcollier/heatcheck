@@ -14,19 +14,20 @@ router.post('/register', (req, res, next) => {
 		lastname: req.body.lastname,
 		username: req.body.username,
 		password: req.body.password,
+		email: req.body.email,
 		phonenumber: req.body.phonenumber
 	});
-	User.getUserByUsername(newUser.username, (err, user) => {
+	User.getUserByEmail(newUser.email, (err, user) => {
 		if(err) throw err;
 		if(user) {
-	 	   return res.json({success: false, msg: 'Username already registered'});
+	 	   return res.json({success: false, msg: 'Email address already registered.'});
 		}
 		User.addUser(newUser, (err, user) => {
  	 		if(err) {
-    			res.json({success: false, msg: 'Failed to register user'});
+    			res.json({success: false, msg: 'Failed to register user.'});
     		} 
     	    else {
-    			res.json({success: true, msg: 'User registered'});
+    			res.json({success: true, msg: 'Registration successful. Redirecting to login.'});
         	}
     	});
     });
@@ -35,12 +36,12 @@ router.post('/register', (req, res, next) => {
 //AUTHENTICATE USERS
 
 router.post('/authenticate', (req, res, next) => {
-  const username = req.body.username;
+  const email = req.body.email;
   const password = req.body.password;
-  User.getUserByUsername(username, (err, user) => {
+  User.getUserByEmail(email, (err, user) => {
 	if(err) throw err;
 	if(!user) {
-	  return res.json({success: false, msg: 'User not found'});
+	  return res.json({success: false, msg: 'Email address not found.'});
 	}
 	User.comparePassword(password, user.password, (err, isMatch) => { 
 	  if (err) throw err;
@@ -50,18 +51,20 @@ router.post('/authenticate', (req, res, next) => {
 	  });
   	  res.json({
 		success: true,
+		msg: 'Login successful.',
 		token: 'JWT ' + token,
 		user: {
 		  id: user._id,
 		  firstname: user.firstname, 
 		  lastname: user.lastname, 
 		  username: user.username,
+		  email: user.email,
 		  phonenumber: user.phonenumber
 		}
 	  });
 	  } 
 	  else {
-		return res.json({success: false, msg: 'Wrong password'});
+		return res.json({success: false, msg: 'Wrong password.'});
 	  }
 	});
   });

@@ -22,19 +22,15 @@ export class HomeComponent implements OnInit {
   showChart: Boolean = false;
 
 	constructor(
-  		private apiService: ApiService,
-  		private router: Router,
+  	private apiService: ApiService,
+  	private router: Router,
 	) { }
 
-
   public barChartOptions = {};
-
   public barChartType = 'horizontalBar';
   public barChartLegend = false;
   public barChartPlugins = [pluginDataLabels];
-
   public barChartLabels = [];
-
   public barChartData = [
     {data: [], backgroundColor: [], hoverBackgroundColor: "#D3D3D3"},
   ];
@@ -43,71 +39,64 @@ export class HomeComponent implements OnInit {
     this.showChart = false;
   }
 
-
   onSearchSubmit() {
+    const gameDayString = moment(this.gameDate).format("YYYY-MM-DD");
+    let pageNum = 1;
+    let games = [];
+    this.onGetApiData(gameDayString, pageNum, games); 
+  }
 
-  	const gameDayString = moment(this.gameDate).format("YYYY-MM-DD");
-  	console.log(typeof gameDayString);
-  	console.log(gameDayString);
+  onGetApiData(gameDayString, pageNum, games) {
 
-  	this.apiService.getStats(gameDayString).subscribe(data => {
-      console.log(data);
+    let apiData = new Promise((resolve, reject) => {
+      this.apiService.getStats(gameDayString, pageNum).subscribe(data => {
+        resolve(data);
+      });
+    });
 
-      let games = data.data;
-
-      if(games.length == 0) {
-        this.showChart = false;
+    apiData.then((fromResolve) => {
+      games = games.concat(fromResolve['data']);
+      if(fromResolve['meta']['next_page'] != null) {
+        this.onGetApiData(gameDayString, fromResolve['meta']['next_page'], games);
       }
       else {
-        this.showChart = true;
+        this.onFilterGames(games);
       }
+    });
+      
+  }
 
+  onFilterGames(games) {
 
-      console.log(games);
+    let playersOver20 = games.filter(x => x.pts >= 20)
+      .map(x => ({
+        points: x.pts, 
+        fgPct: x.fg_pct.toString(),
+        threes: x.fg3m.toString(),
+        rebounds: x.reb.toString(), 
+        assists: x.ast.toString(), 
+        name: x.player.first_name  + ' ' + x.player.last_name,
+        color:(() => {
+          if(x.pts < 30) return "#FBEC5D";
+          else if(x.pts < 40) return "#FFB00F"; 
+          else if(x.pts < 50) return "#FF6103"; 
+          else return "#CD2626"
+        })()
+      })
+    )
+    .sort((a,b) => (a.points < b.points) ? 1 : -1)
+    .slice(0,10);
+    this.onShowChart(playersOver20);
 
-      let playersOver20 = games.filter(x => x.pts >= 20)
-                               .map(x => (
-                                 {
-                                   points: x.pts, 
-                                   fgPct: x.fg_pct.toString(),
-                                   threes: x.fg3m.toString(),
-                                   rebounds: x.reb.toString(), 
-                                   assists: x.ast.toString(), 
-                                   name: x.player.first_name 
-                                         + ' ' 
-                                         + x.player.last_name,
-                                   color:(
-                                           () => {
-                                                   if(x.pts < 30) return "#FBEC5D";
-                                                   else if(x.pts < 40) return "#FFB00F"; 
-                                                   else if(x.pts < 50) return "#FF6103"; 
-                                                   else return "#CD2626"
-                                                  }
-                                          )()
-                                  })
-                                )
-                               .sort((a,b) => (a.points < b.points) ? 1 : -1);
+  }
 
+  onShowChart(players) {
 
-      console.log(playersOver20);
-
-      let playersWarm = playersOver20.filter(x => x.points < 30);
-      console.log(playersWarm);
-
-      let playersHot = playersOver20.filter(x => x.points >= 30 && x.points <40);
-      console.log(playersHot);
-
-      let playersWhiteHot = playersOver20.filter(x => x.points >= 40 && x.points <50);
-      console.log(playersWhiteHot);
-
-      let playersLavaHot = playersOver20.filter(x => x.points > 50);
-      console.log(playersLavaHot);
-
-
-  this.barChartOptions = {
-    scaleShowVerticalLines: false,
-    responsive: true,
-    scales: {
+    this.showChart = true;
+    this.barChartOptions = {
+      scaleShowVerticalLines: false,
+      responsive: true,
+      scales: {
         xAxes: [{
           display: false,
           ticks: {
@@ -116,61 +105,52 @@ export class HomeComponent implements OnInit {
           }
         }],
         yAxes: [{
-            gridLines: {
-              display: false
-            }   
+          gridLines: {
+            display: false
+          }   
         }]
-    },
-    plugins: {
-      datalabels: {
-        anchor: 'end',
-        align: 'end',
-        font: {
-          size: 12,
-        }
-      }
-    },
-    tooltips: {
-      enabled: true,
-      mode: 'single',
-      custom: (tooltip) => {
-        if (!tooltip) return;
-        tooltip.displayColors = false;
       },
-      callbacks: {
-        label: function(tooltipItems, data) { 
-          var reboundsArr = playersOver20.map(x => 'Rebounds: ' + x.rebounds);
-          var assistsArr = playersOver20.map(x => 'Assists: ' + x.assists);
-          var threesArr = playersOver20.map(x => 'Three Pointers: ' + x.threes);
-          var fgpArr = playersOver20.map(x => 'Field Goal %: ' + x.fgPct);
-          var multistringText = ['Points: ' + tooltipItems.xLabel];
-          multistringText.push(reboundsArr[tooltipItems.index]);
-          multistringText.push(assistsArr[tooltipItems.index]);
-          multistringText.push(threesArr[tooltipItems.index]);
-          multistringText.push(fgpArr[tooltipItems.index]);
-          return multistringText;
+      plugins: {
+        datalabels: {
+          anchor: 'end',
+          align: 'end',
+          font: {
+            size: 12,
+          }
+        }
+      },
+      tooltips: {
+        enabled: true,
+        mode: 'single',
+        custom: (tooltip) => {
+          if (!tooltip) return;
+          tooltip.displayColors = false;
+        },
+        callbacks: {
+          label: function(tooltipItems, data) { 
+            let reboundsArr = players.map(x => 'Rebounds: ' + x.rebounds);
+            let assistsArr = players.map(x => 'Assists: ' + x.assists);
+            let threesArr = players.map(x => 'Three Pointers: ' + x.threes);
+            let fgpArr = players.map(x => 'Field Goal %: ' + x.fgPct);
+            let multistringText = ['Points: ' + tooltipItems.xLabel];
+            multistringText.push(reboundsArr[tooltipItems.index]);
+            multistringText.push(assistsArr[tooltipItems.index]);
+            multistringText.push(threesArr[tooltipItems.index]);
+            multistringText.push(fgpArr[tooltipItems.index]);
+            return multistringText;
+          }
         }
       }
-    }
+    };
 
-  };
+    this.barChartData = [{
+      data: players.map(x => x.points), 
+      backgroundColor: players.map(x => x.color),
+      hoverBackgroundColor: "#D3D3D3"
+    }];
 
+    this.barChartLabels = players.map(x => x.name);
 
-      this.barChartData = [
-                            {
-                              data: playersOver20.map(x => x.points), 
-                              backgroundColor: playersOver20.map(x => x.color),
-                              hoverBackgroundColor: "#D3D3D3"
-                            }
-                          ];
-
-      this.barChartLabels = playersOver20.map(x => x.name);
-
-
-
-    });	
   }
-
-
 
 }

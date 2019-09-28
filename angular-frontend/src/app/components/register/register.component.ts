@@ -40,16 +40,10 @@ export class RegisterComponent implements OnInit {
       email: this.email
 
     }
-    //console.log(user);
 
     let validate = this.validateService.validateRegister(user);
-    //console.log(validate);
-    //console.log(validate.valid);
-    //console.log(validate.message);
-    //console.log(typeof validate);
 
     if(!validate.valid) {
-      //this.validateMessage = validate.message;
       this.errorMessage = validate.message;
       setTimeout(() => {
         this.errorMessage = "";
@@ -57,50 +51,24 @@ export class RegisterComponent implements OnInit {
       }, 3000);
     }
     else {
-      this.validateMessage = validate.message;
-      setTimeout(() => {
-        this.clearFields();
-      }, 3000);
-    }
-
-
-  }
-
-/*
-
-    if(!this.validateService.validateRegister(user).valid) {
-      this.validateMessage = this.validateService.validate;
-      setTimeout(() => {
-        this.validateMessage = "";
-        return false;
-      }, 2000);
-    }
-    else {
       this.apiService.registerUser(user).subscribe(data => {
-        if(data.success){
+        if(data.success) {
+          this.validateMessage = data.msg;
           setTimeout(() => {
             this.clearFields();
-            this.router.navigate(['/register']); 
-          }, 1000);
-        } 
+            this.router.navigate(['/login']); 
+          }, 3000);
+        }
         else {
           this.errorMessage = data.msg;
           setTimeout(() => {
-            this.clearFields();
+            this.errorMessage = "";
             this.router.navigate(['/register']); 
-          }, 2000);
-       }
-      },
-      err => {
-      console.log(err);
-      return false;
+          }, 3000);
+        }
       });
     }
-
-
-	}
-
-  */
+  }
 
   clearFields() {
     this.firstname = "";
@@ -112,6 +80,5 @@ export class RegisterComponent implements OnInit {
     this.validateMessage = "";
     this.errorMessage = "";
   }
-
 
 }

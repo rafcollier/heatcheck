@@ -27,13 +27,15 @@ import { SidenavListComponent } from './components/sidenav-list/sidenav-list.com
 import { ValidateService } from './services/validate.service';
 import { ApiService } from './services/api.service';
 
+//Guards
+import { RouteGuard } from './guards/route.guard';
+
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
-  //{path: 'register', component: RegisterComponent, canActivate:[AuthGuard]},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'profile', component: ProfileComponent},
+  {path: 'profile', component: ProfileComponent, canActivate:[RouteGuard]},
   {path: 'about', component: AboutComponent}
 ]
 
@@ -61,7 +63,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ChartsModule   
   ],
-  providers: [ValidateService],
+  providers: [ValidateService, ApiService, RouteGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

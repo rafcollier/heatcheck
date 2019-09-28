@@ -5,9 +5,9 @@
 		</button>
 	</div>
 	<div>
-		<a routerLink="/home" class="logostyle"> 
-			<img src="assets/images/favicon.png">HEAT CHECK
-		</a>
+	<a routerLink="/home" class="logostyle"> 
+		<img src="assets/images/favicon.png">HEAT CHECK
+	</a>
 	</div>
 	<div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
 		<ul fxLayout fxLayoutGap="15px" class="navigation-items">
@@ -16,6 +16,12 @@
 			</li>
 			<li>
 				<a routerLink="/register">Register</a>
+			</li>
+			<li>
+				<a routerLink="/login">Login</a>
+			</li>
+			<li *ngIf="apiService.loggedIn()">
+				<a (click)="onLogoutClick()" href="">Logout</a>
 			</li>
 		</ul>
 	</div>
