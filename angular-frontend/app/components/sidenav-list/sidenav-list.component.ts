@@ -24,4 +24,10 @@ export class SidenavListComponent implements OnInit {
 		this.sidenavClose.emit();
 	}
 
+  onLogoutClick(){
+    this.apiService.logout();
+    this.router.navigate(['/login']);
+    return false;
+  }
+
 }
