@@ -20,8 +20,8 @@ mongoose.connection.on('error', () => {
 
 const app = express();
 const users = require('./routes/users');
-const port = 3000; //Local 
-//const port = process.env.PORT || 8080; //This is for deployment to Heroku
+//const port = 3000; //Local 
+const port = process.env.PORT || 8080; //This is for deployment to Heroku
 
 //Middleware
 

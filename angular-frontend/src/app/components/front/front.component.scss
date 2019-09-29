@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-item-1 {
+  max-width: 50%;
+  margin-top: 150px;
+}
+
+.container-item-2 {
+  max-width: 50%;
+  margin-top: 20px;
+  margin-bottom: 150px;
+}
+
+h1 {
+  font-size: 30px;
+  color: red;
+}
+
+h4 {
+  font-size: 18px;
+}

@@ -11,12 +11,13 @@ import { ValidateService } from '../../services/validate.service';
 })
 
 export class RegisterComponent implements OnInit {
-  firstname: String;
-  lastname: String;
-  username: String;
-  password: String;
-  phonenumber: String;
-  email: String;
+  componentName: String = "Register";
+  firstname: String = "";
+  lastname: String = "";
+  username: String = "";
+  password: String = "";
+  phonenumber: String = "";
+  email: String = "";
   errorMessage: String = "";
   validateMessage: String = "";
 

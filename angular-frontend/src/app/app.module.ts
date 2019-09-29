@@ -22,6 +22,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AboutComponent } from './components/about/about.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SidenavListComponent } from './components/sidenav-list/sidenav-list.component';
+import { FrontComponent } from './components/front/front.component';
 
 //Services
 import { ValidateService } from './services/validate.service';
@@ -31,8 +32,9 @@ import { ApiService } from './services/api.service';
 import { RouteGuard } from './guards/route.guard';
 
 const appRoutes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'home', component: HomeComponent},
+  {path: '', component: FrontComponent},
+  {path: 'front', component: FrontComponent},
+  {path: 'home', component: HomeComponent, canActivate:[RouteGuard]},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   {path: 'profile', component: ProfileComponent, canActivate:[RouteGuard]},
@@ -48,7 +50,8 @@ const appRoutes: Routes = [
     LoginComponent,
     AboutComponent,
     HeaderComponent,
-    SidenavListComponent
+    SidenavListComponent,
+    FrontComponent
   ],
   imports: [
     BrowserModule,

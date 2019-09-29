@@ -18,6 +18,11 @@
       </mat-form-field>
 
       <button mat-raised-button type="submit">Search</button>
+      
+      <br><br>
+      <div *ngIf="errorMessage">
+        <h4 class="red-font">{{errorMessage}}</h4>
+      </div>
 
     </form>  
 </section>

@@ -4,7 +4,12 @@
 			<mat-icon>menu</mat-icon>
 		</button>
 	</div>
-	<div>
+	<div *ngIf="!apiService.loggedIn()">
+	<a routerLink="/front" class="logostyle"> 
+		<img src="assets/images/favicon.png">HEAT CHECK
+	</a>
+  </div>
+	<div *ngIf="apiService.loggedIn()">
 	<a routerLink="/home" class="logostyle"> 
 		<img src="assets/images/favicon.png">HEAT CHECK
 	</a>
@@ -17,8 +22,11 @@
 			<li>
 				<a routerLink="/register">Register</a>
 			</li>
-			<li>
+			<li *ngIf="!apiService.loggedIn()">
 				<a routerLink="/login">Login</a>
+			</li>
+			<li *ngIf="apiService.loggedIn()">
+				<a routerLink="/profile">Profile</a>
 			</li>
 			<li *ngIf="apiService.loggedIn()">
 				<a (click)="onLogoutClick()" href="">Logout</a>

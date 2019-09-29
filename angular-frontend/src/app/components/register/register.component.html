@@ -1,25 +1,25 @@
 <div class = "align-form">
   <section class = "mat-typography">
 
-    <form (submit)="onRegisterSubmit()" class="example-form">  
-      <h2>Register</h2>
-      <mat-form-field class="example-full-width">  
+    <form id="register-form" (submit)="onRegisterSubmit()" class="example-form">  
+      <h2> {{componentName}} </h2>
+      <mat-form-field class="fullwidth">  
         <input type="text" matInput placeholder="First name" [(ngModel)]="firstname" name="firstname">  
       </mat-form-field> 
-      <mat-form-field class="example-full-width">  
+      <mat-form-field class="fullwidth">  
         <input type="text" matInput placeholder="Last name" [(ngModel)]="lastname" name="lastname">  
       </mat-form-field> 
-      <mat-form-field class="example-full-width">  
+      <mat-form-field class="fullwidth">  
         <input type="text" matInput placeholder="Username" [(ngModel)]="username" name="username">  
       </mat-form-field>  
-      <mat-form-field class="example-full-width">  
+      <mat-form-field class="fullwidth">  
         <input type="text" matInput placeholder="Email address" [(ngModel)]="email" name="email">  
       </mat-form-field> 
-      <mat-form-field class="example-full-width">  
+      <mat-form-field class="fullwidth">  
         <input type="password" matInput placeholder="Password" [(ngModel)]="password" name="password">  
       </mat-form-field>  
  
-      <mat-form-field class="example-full-width">  
+      <mat-form-field class="fullwidth">  
         <input type="text" matInput placeholder="Phone number" [(ngModel)]="phonenumber" name="phonenumber">  
       </mat-form-field>  
       <button mat-raised-button type="submit">Submit</button>

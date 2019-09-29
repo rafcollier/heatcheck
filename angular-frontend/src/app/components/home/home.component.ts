@@ -1,28 +1,47 @@
 import { Component, OnInit, ViewEncapsulation, ElementRef, Renderer2 } from '@angular/core';
-import {ApiService} from '../../services/api.service';
-import {Router} from '@angular/router';
-import {FormControl} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import * as moment from 'moment';
+import { ApiService } from '../../services/api.service';
+import { ValidateService } from '../../services/validate.service';
+import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import * as moment from 'moment';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
-import {MomentDateAdapter} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ]
 })
 export class HomeComponent implements OnInit {
 
 	gameDate: Date;
   showChart: Boolean = false;
+  errorMessage: String = "";
 
 	constructor(
   	private apiService: ApiService,
+    private validateService: ValidateService,
   	private router: Router,
 	) { }
 
@@ -40,17 +59,40 @@ export class HomeComponent implements OnInit {
   }
 
   onSearchSubmit() {
-    const gameDayString = moment(this.gameDate).format("YYYY-MM-DD");
-    let pageNum = 1;
-    let games = [];
-    this.onGetApiData(gameDayString, pageNum, games); 
+
+    this.showChart = false;
+    let validate = this.validateService.validateDate(this.gameDate);
+
+    if(!validate.valid) {
+      this.errorMessage = validate.message;
+      setTimeout(() => {
+        this.errorMessage = "";
+        return false;
+      }, 3000);
+    }
+    else {
+      const gameDayString = moment(this.gameDate).format("YYYY-MM-DD");
+      let pageNum = 1;
+      let games = [];
+      this.onGetApiData(gameDayString, pageNum, games); 
+    }
   }
 
   onGetApiData(gameDayString, pageNum, games) {
 
     let apiData = new Promise((resolve, reject) => {
       this.apiService.getStats(gameDayString, pageNum).subscribe(data => {
-        resolve(data);
+        console.log(data);
+        if(data.data.length > 0) {
+          resolve(data);
+        }
+        else {
+          this.errorMessage = "No games on this date";
+          setTimeout(() => {
+            this.errorMessage = "";
+            return false;
+          }, 3000);
+        }
       });
     });
 
@@ -71,10 +113,10 @@ export class HomeComponent implements OnInit {
     let playersOver20 = games.filter(x => x.pts >= 20)
       .map(x => ({
         points: x.pts, 
-        fgPct: x.fg_pct.toString(),
-        threes: x.fg3m.toString(),
-        rebounds: x.reb.toString(), 
-        assists: x.ast.toString(), 
+        fgPct: x.fg_pct != null ? x.fg_pct.toString() : "",
+        threes: x.fg3m != null ? x.fg3m.toString() : "",
+        rebounds: x.reb != null ? x.reb.toString() : "",
+        assists: x.ast != null ? x.ast.toString() : "", 
         name: x.player.first_name  + ' ' + x.player.last_name,
         color:(() => {
           if(x.pts < 30) return "#FBEC5D";

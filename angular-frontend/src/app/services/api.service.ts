@@ -16,38 +16,40 @@ export class ApiService {
 	registerUser(user) {
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post('http://localhost:3000/users/register', user, {headers: headers})
+		//return this.http.post('http://localhost:3000/users/register', user, {headers: headers})
+    return this.http.post('users/register', user, {headers: headers})
 		.pipe(map(res => res.json()));
 	}
 
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) 
+    //return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) 
+    return this.http.post('users/authenticate', user, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
 
-  getProfile() {
+  deleteUser(userID) {
     this.loadToken();
     let headers = new Headers();
-    headers.append('Authorization', this.token);
+    let params = new URLSearchParams();
+    let options = new RequestOptions();
     headers.append('Content-Type', 'application/json');
-    return this.http.get('users/profile', {headers: headers}) 
+    headers.append('Authorization', this.token);
+    params.set('userID', userID);
+    options.headers = headers;
+    options.search = params;
+    //return this.http.delete('http://localhost:3000/users/deleteUser', options)
+    return this.http.delete('users/deleteUser', options)
       .pipe(map(res => res.json()));
-  } 
-
+  }
 
 	getStats(gameDayString, pageNum) {
 		let headers = new Headers();
-    	headers.append('Content-Type', 'application/json');
-    	//return this.http.get('https://www.balldontlie.io/api/v1/players?search=davis')
-    	//return this.http.get('https://www.balldontlie.io/api/v1/games?seasons[]=2019')
-    	//return this.http.get('https://www.balldontlie.io/api/v1/stats?per_page=100&dates[]="2019-03-16"')
-    	//return this.http.get('https://www.balldontlie.io/api/v1/stats?page=2&per_page=50&dates[]="2019-03-17"')
-    	return this.http.get('https://www.balldontlie.io/api/v1/stats?page=' + pageNum + '&per_page=100&dates[]=' + gameDayString) 
-        .pipe(map(res => res.json()));
+    headers.append('Content-Type', 'application/json');
+  	return this.http.get('https://www.balldontlie.io/api/v1/stats?page=' + pageNum + '&per_page=100&dates[]=' + gameDayString) 
+      .pipe(map(res => res.json()));
 	}
-
 
   /////////////////////////////////////////
   // LOCAL STORAGE
@@ -81,8 +83,6 @@ export class ApiService {
     const token = localStorage.getItem('id_token');
     return token != null;
   }
-
-
 
 }
 

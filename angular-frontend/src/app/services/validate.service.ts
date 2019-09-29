@@ -93,6 +93,26 @@ export class ValidateService {
 
   }
 
+
+  validateDate(date) {
+
+    if(date == ("" || undefined || null) || (date.length == 0)) {
+      let response = {
+        valid: false,
+        message: "Invalid Date."
+      }
+      return response;
+    }  
+    else {
+      let response = {
+      valid: true,
+      message: "Validation Passed."
+    }
+    return response;
+    }
+
+  }
+
 }
 
 

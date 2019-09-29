@@ -1,1 +1,14 @@
-<p>profile works!</p>
+
+<div class = "example-form">
+	<h1>User Profile</h1>
+	<p><b>First name:</b> {{ firstname }}</p>
+	<p><b>Last name:</b> {{ lastname }}</p>
+	<p><b>Username:</b> {{ username }}</p>
+	<p><b>Email:</b> {{ email }}</p>
+	<p><b>Phone number:</b> {{ phonenumber }}</p>
+  <hr class="hr-style">
+
+  <span (click)="onDeleteUser()">
+    <button mat-raised-button>Delete</button>
+  </span>
+</div>

@@ -6,8 +6,7 @@ const config = require('../config/database');
 const User = require('../models/users');
 
 
-//REGISTER USERS
-
+//REGISTER USER
 router.post('/register', (req, res, next) => {
 	let newUser = new User({
 		firstname: req.body.firstname,
@@ -33,8 +32,7 @@ router.post('/register', (req, res, next) => {
     });
 });
 
-//AUTHENTICATE USERS
-
+//AUTHENTICATE USER
 router.post('/authenticate', (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -70,30 +68,18 @@ router.post('/authenticate', (req, res, next) => {
   });
 });
 
-//DELETE USERS
-
-router.delete('/delete', (req, res, next) => {
-	res.send('DELETE');
-});
-
-//USER PROFILE
-
-router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	res.json({user: req.user});
-});
-
-module.exports = router;
-
-
-/*
-
-
+//DELETE USER
 router.delete('/deleteUser', (req, res, next) => {
-  User.findByIdAndRemove(req.query.docID, (err, doc) => { 
-    if (err) throw err;
+  User.findByIdAndRemove(req.query.userID, (err, doc) => { 
+    if(err) {
+      res.json({success: false, msg: 'Failed to delete user.'});
+      throw err;
+    }
+    else {
+      res.json({success: true, msg: 'User deleted.'});
+    }
   });
 });
 
 module.exports = router;
 
-*/
