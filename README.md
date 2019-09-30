@@ -5,6 +5,8 @@ Heat Check is web application that calls an API with statistics for the National
 
 Link to try/test the application: https://fierce-inlet-96619.herokuapp.com
 
+Link to video demo of the application: https://www.youtube.com/watch?v=rgRoFtmsav0
+
 Link to API (balldontlie): https://www.balldontlie.io/#introduction
 
 The application was created using the MEAN stack (MongoDB, Express, Angular, Node). 
