@@ -35,8 +35,8 @@ export const MY_FORMATS = {
 })
 export class HomeComponent implements OnInit {
 
-	gameDate: Date;
-  gameDateString: String;
+	gameDate: Date = null;
+  displayDate: String ="";
   showChart: Boolean = false;
   errorMessage: String = "";
 
@@ -60,12 +60,17 @@ export class HomeComponent implements OnInit {
     this.onGetGames();
   }
 
+  //Initial call to API to get games for a default date. 
+  //Date chosen to show different barchart colors for each scoring category. 
   onGetGames(){
-    this.apiService.getGames().subscribe(data => {
-      console.log(data);
-    });
+    const gameDateString = "2019-03-17"; 
+    let pageNum = 1;
+    let games = [];
+    this.onGetApiData(gameDateString, pageNum, games); 
   }
 
+  //Validate that data has been entered into the input field. Format the date
+  //for the API call and call function to fetch API data.
   onSearchSubmit() {
 
     this.showChart = false;
@@ -79,18 +84,22 @@ export class HomeComponent implements OnInit {
       }, 3000);
     }
     else {
-       this.gameDateString = moment(this.gameDate).format("YYYY-MM-DD");
+      const gameDateString = moment(this.gameDate).format("YYYY-MM-DD");
       let pageNum = 1;
       let games = [];
-      this.onGetApiData(this.gameDateString, pageNum, games); 
+      this.onGetApiData(gameDateString, pageNum, games); 
     }
   }
 
+  //The API returns paginated data. To get all the player data for a given date,
+  //you have to call the API recursively until all data has been received. Then call
+  //the function to filter the data. 
   onGetApiData(gameDateString, pageNum, games) {
 
     let apiData = new Promise((resolve, reject) => {
       this.apiService.getStats(gameDateString, pageNum).subscribe(data => {
         if(data.data.length > 0) {
+          this.displayDate = moment(gameDateString).format("MMMM DD" + "," + " YYYY");
           resolve(data);
         }
         else {
@@ -114,7 +123,10 @@ export class HomeComponent implements OnInit {
     });
       
   }
-
+ 
+  //The data from the API is filtered to keep players who scored 20 or more points.
+  //Specific stats are pulled from the API data, and players are sorted by who scored
+  //the most points. Then the top 10 scorers are displayed. 
   onFilterGames(games) {
 
     let playersOver20 = games.filter(x => x.pts >= 20)
@@ -139,6 +151,7 @@ export class HomeComponent implements OnInit {
 
   }
 
+  //Chart the filtered API data.
   onShowChart(players) {
 
     this.showChart = true;

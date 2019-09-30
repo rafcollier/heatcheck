@@ -26,6 +26,10 @@ export class LoginComponent implements OnInit {
 
   onLoginSubmit(){
 
+    //Validate the input to ensure both fields have data.
+    //Check the user database to find the email address of the user and display message if not found.
+    //If user is found, authenicate the password and direct to home page.
+
     const user = {
       email: this.email,
       password: this.password

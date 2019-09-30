@@ -42,8 +42,9 @@ export class RegisterComponent implements OnInit {
 
     }
 
+    //The user registration input is validated and then added to the user database.
     let validate = this.validateService.validateRegister(user);
-
+    
     if(!validate.valid) {
       this.errorMessage = validate.message;
       setTimeout(() => {

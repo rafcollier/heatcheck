@@ -16,6 +16,7 @@ export class ApiService {
 	registerUser(user) {
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
+    //return this.http.post('http://localhost:3000/users/register', user, {headers: headers})
     return this.http.post('users/register', user, {headers: headers})
 		.pipe(map(res => res.json()));
 	}
@@ -23,6 +24,7 @@ export class ApiService {
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
+    //return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) 
     return this.http.post('users/authenticate', user, {headers: headers}) 
       .pipe(map(res => res.json()));
   }
@@ -37,6 +39,7 @@ export class ApiService {
     params.set('userID', userID);
     options.headers = headers;
     options.search = params;
+    //return this.http.delete('http://localhost:3000/users/deleteUser', options)
     return this.http.delete('users/deleteUser', options)
       .pipe(map(res => res.json()));
   }

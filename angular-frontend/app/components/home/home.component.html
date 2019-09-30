@@ -1,7 +1,7 @@
 <section class = "mat-typography">
     
     <form (submit)="onSearchSubmit()" class="example-form">  
-      <h2>Select Game Date</h2>
+      <h1>Select Game Date</h1>
       <h4>The NBA season typically runs from mid-October to mid-June</h4>
 
       <mat-form-field class="example-full-width">
@@ -24,7 +24,7 @@
 
 <div *ngIf="showChart" class="chartStyle">
   <div style="display: block">
-    <h2>Top 10 scorers on {{ gameDateString }}</h2>
+    <h2 class="example-form">Top 10 scorers on {{ displayDate }}</h2>
     <canvas baseChart
             [datasets]="barChartData"
             [labels]="barChartLabels"

@@ -7,7 +7,6 @@ export class ValidateService {
 
   validateRegister(user){
 
-    //let passwordRegex = RegExp("(?=.*[A-Z]+.*)(?=.*[a-z]+.*)(?=.*\\d+.*)(?=.*[!@#$%^&*()]+.*).{8,}"); 
     let passwordRegex = /(?=.*[A-Z]+.*)(?=.*[a-z]+.*)(?=.*\d+.*)(?=.*[!@#$%^&*()]+.*).{8,}/; 
     let passwordTest = passwordRegex.test(user.password);
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -92,7 +91,6 @@ export class ValidateService {
     }
 
   }
-
 
   validateDate(date) {
 
