@@ -61,6 +61,12 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  onGetGames(){
+    this.apiService.getGames().subscribe(data => {
+      console.log(data);
+    });
+  }
+
   clearFields() {
     this.password = "";
     this.email = "";

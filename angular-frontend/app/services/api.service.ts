@@ -44,9 +44,19 @@ export class ApiService {
 	getStats(gameDayString, pageNum) {
 		let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-  	return this.http.get('https://www.balldontlie.io/api/v1/stats?page=' + pageNum + '&per_page=100&dates[]=' + gameDayString) 
+  	return this.http.get('https://www.balldontlie.io/api/v1/stats?page=' + 
+                          pageNum + 
+                          '&per_page=100&dates[]=' + 
+                          gameDayString) 
       .pipe(map(res => res.json()));
 	}
+
+  getGames() {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('https://www.balldontlie.io/api/v1/games') 
+      .pipe(map(res => res.json()));
+  }
 
   /////////////////////////////////////////
   // LOCAL STORAGE

@@ -1,15 +1,8 @@
-
-
-
-
-
-
-
 <section class = "mat-typography">
-
     
     <form (submit)="onSearchSubmit()" class="example-form">  
       <h2>Select Game Date</h2>
+      <h4>The NBA season typically runs from mid-October to mid-June</h4>
 
       <mat-form-field class="example-full-width">
         <input matInput [matDatepicker]="gameDatePicker" placeholder="Game Date" [(ngModel)]="gameDate" name="gameDate">

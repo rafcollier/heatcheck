@@ -15,6 +15,9 @@ module.exports = function (config) {
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
+    files: [
+      { pattern: './app/components/register/register.component.spec.ts', watched: false }
+    ],
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, './coverage/angular-frontend'),
       reports: ['html', 'lcovonly', 'text-summary'],
