@@ -24,6 +24,7 @@
 
 <div *ngIf="showChart" class="chartStyle">
   <div style="display: block">
+    <h2>Top 10 scorers on {{ gameDateString }}</h2>
     <canvas baseChart
             [datasets]="barChartData"
             [labels]="barChartLabels"

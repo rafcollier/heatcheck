@@ -36,6 +36,7 @@ export const MY_FORMATS = {
 export class HomeComponent implements OnInit {
 
 	gameDate: Date;
+  gameDateString: String;
   showChart: Boolean = false;
   errorMessage: String = "";
 
@@ -78,17 +79,17 @@ export class HomeComponent implements OnInit {
       }, 3000);
     }
     else {
-      const gameDayString = moment(this.gameDate).format("YYYY-MM-DD");
+       this.gameDateString = moment(this.gameDate).format("YYYY-MM-DD");
       let pageNum = 1;
       let games = [];
-      this.onGetApiData(gameDayString, pageNum, games); 
+      this.onGetApiData(this.gameDateString, pageNum, games); 
     }
   }
 
-  onGetApiData(gameDayString, pageNum, games) {
+  onGetApiData(gameDateString, pageNum, games) {
 
     let apiData = new Promise((resolve, reject) => {
-      this.apiService.getStats(gameDayString, pageNum).subscribe(data => {
+      this.apiService.getStats(gameDateString, pageNum).subscribe(data => {
         if(data.data.length > 0) {
           resolve(data);
         }
@@ -105,7 +106,7 @@ export class HomeComponent implements OnInit {
     apiData.then((fromResolve) => {
       games = games.concat(fromResolve['data']);
       if(fromResolve['meta']['next_page'] != null) {
-        this.onGetApiData(gameDayString, fromResolve['meta']['next_page'], games);
+        this.onGetApiData(gameDateString, fromResolve['meta']['next_page'], games);
       }
       else {
         this.onFilterGames(games);
