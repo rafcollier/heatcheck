@@ -51,7 +51,7 @@ Test phone number examples:
 333-333-3333 (passed)
 
 
-The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character. It is validated using the following regular expression: /(?=.*[A-Z]+.*)(?=.*[a-z]+.*)(?=.*\d+.*)(?=.*[!@#$%^&*()]+.*).{8,}/
+The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character. It is encrypted using bcrypt hashing. It is validated using the following regular expression: /(?=.*[A-Z]+.*)(?=.*[a-z]+.*)(?=.*\d+.*)(?=.*[!@#$%^&*()]+.*).{8,}/
 
 Test password examples:
 
@@ -77,6 +77,8 @@ Password: zudIDK3745@*#
 
 Phone number:(111) 111-1111
 
+-----
+
 First name: John
 
 Last name: Smith
@@ -89,18 +91,42 @@ Password: ideIFL9847#*&
 
 Phone number: (222) 222-2222
 
-Joe
+-----
 
-House
+First name: Joe
 
-joehouse
+Last name: House
 
-joehouse@joehouse.com
+Username: joehouse
 
-idkUEH847*$(
+Email: joehouse@joehouse.com
+
+Password: idkUEH847*$(
 
 Phone number:(333) 333-3333
 
+
+///////////////
+LOGIN PAGE
+//////////////
+
+The login page contains two mandatory fields: email address and password. If the email address is found in the user database and the hashed password is authenticated, the user is granted a JSON web token that gives them access to the web application. 
+
+//////////////
+HOME PAGE
+//////////////
+
+Only users that have registered and logged in can access the home page. 
+
+The home page contains a date picker and a horizontal bar graph displaying the top 10 scoring players on the selected date. The default date when first visting the home page is March 17, 2019, on which there were scorers in each category of the graph as sorted by color: yellow (20+ points), to orange (30+ points) to dark orange (40+ points) to red (50+ points). If there were no games on the entered date, a message saying "No games on this date" will be displayed. 
+
+/////////////
+USER PROFILE
+/////////////
+
+Only users that have registered and logged in can access the user profile page.
+
+This page displays the users registration information (except the password). The user can delete their profile from the user database and will be automatically logged out and redirected to the front page.
 
 
 
