@@ -35,13 +35,6 @@ export class ValidateService {
       }
       return response;
     }  
-    else if(!passwordTest) {
-      let response = {
-        valid: false,
-        message: "Invalid password."
-      }
-      return response;
-    } 
     else if(!emailTest) {
       let response = {
         valid: false,
@@ -49,6 +42,13 @@ export class ValidateService {
       }
       return response;
     } 
+    else if(!passwordTest) {
+      let response = {
+        valid: false,
+        message: "Invalid password."
+      }
+      return response;
+    }
     else if(!phonenumberTest) {
       let response = {
         valid: false,
