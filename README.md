@@ -25,51 +25,83 @@ The registration page contains six fields: first name, last name, username, emai
 The email field is validated using the following regular expression: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 Test email examples:
+
 testcom (failed)
+
 test.com (failed)
+
 @test.com (failed)
+
 test@test.com (passed)
 
 The phone number field is validated using the following regular expression: /[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}/
 
 Test phone number examples:
+
 111 111 111 (failed)
+
 111 111 1111 (passed)
+
 (222) 222 222 (failed)
+
 (222) 222 2222 (passed)
+
 333-333-333 (failed)
+
 333-333-3333 (passed)
+
 
 The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character. It is validated using the following regular expression: /(?=.*[A-Z]+.*)(?=.*[a-z]+.*)(?=.*\d+.*)(?=.*[!@#$%^&*()]+.*).{8,}/
 
 Test password examples:
+
 test (failed)
+
 testTEST (failed)
+
 testTEST123 (failed)
+
 testTEST123!@# (passed)
 
 The following three test users have already been added to the users database of the application:
 
 First name: Tom
+
 Last name: Jones
+
 Username: tomjones
+
 Email: tomjones@tomjones.com
+
 Password: zudIDK3745@*# 
+
 Phone number:(111) 111-1111
 
 First name: John
+
 Last name: Smith
+
 Username: johnsmith
+
 Email: johnsmith@johnsmith.com
+
 Password: ideIFL9847#*&
+
 Phone number: (222) 222-2222
 
 Joe
+
 House
+
 joehouse
+
 joehouse@joehouse.com
+
 idkUEH847*$(
+
 Phone number:(333) 333-3333
+
+
 
 
 
