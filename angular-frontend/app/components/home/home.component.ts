@@ -56,6 +56,13 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.showChart = false;
+    this.onGetGames();
+  }
+
+  onGetGames(){
+    this.apiService.getGames().subscribe(data => {
+      console.log(data);
+    });
   }
 
   onSearchSubmit() {
@@ -82,7 +89,6 @@ export class HomeComponent implements OnInit {
 
     let apiData = new Promise((resolve, reject) => {
       this.apiService.getStats(gameDayString, pageNum).subscribe(data => {
-        console.log(data);
         if(data.data.length > 0) {
           resolve(data);
         }
